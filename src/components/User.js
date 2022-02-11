@@ -1,30 +1,30 @@
 import React, {useEffect, useState} from 'react';
 import './User.css'
+import UserIcon from "./UserIcon";
 
 const User = ({user, usersList, level}) => {
     const [employees, setEmployees] = useState([]);
     const [photoLoaded, setPhotoLoaded] = useState(false);
 
     useEffect(() => {
-        getEmployees();
+        findEmployees();
     }, [user]);
 
-    const getEmployees = () => {
+    const findEmployees = () => {
         setEmployees(usersList.filter(employee => {
             return employee.managerId === user.id;
         }))
     }
 
+    const getInitials = () => {
+        return user.firstName.charAt(0) + user.lastName.charAt(0);
+    }
 
     return (
         <div>
             <div className="user">
-                <div className="operator">{employees.length > 0 ? '+' : '-'}</div>
-                {user.photo &&
-                <img style={photoLoaded ? {} : {display: 'none'}} src={user.photo}
-                     className="photo" onLoad={() => setPhotoLoaded(true)} alt=''/>}
-                {(!user.photo || !photoLoaded) &&
-                <div className="initials">{user.firstName.charAt(0) + user.lastName.charAt(0)}</div>}
+                <div className="sign">{employees.length > 0 ? '+' : '-'}</div>
+                <UserIcon user={user}/>
                 <div className="name">{user.firstName + ' ' + user.lastName}</div>
                 <div className="email">{user.email}</div>
             </div>

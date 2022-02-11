@@ -27,6 +27,7 @@ function App() {
     return (
         <div className="container">
             <h1>Hierarchy Tree</h1>
+            {usersList.length === 0 ? <h2 className="loader">Loading...</h2> : null}
             {rootUsers.map((user) => {
                 return (
                     <User
