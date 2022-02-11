@@ -1,25 +1,43 @@
-import logo from './logo.svg';
 import './App.css';
+import axios from "axios";
+import React, {useState, useEffect} from 'react';
+import User from "./components/User";
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    const [usersList, setUsersList] = useState([]);
+    const [rootUsers, setRootUsers] = useState([]);
+
+
+    useEffect(() => {
+        axios.get(`https://gongfetest.firebaseio.com/.json`).then(response => {
+            setUsersList(response.data.users);
+        });
+    }, []);
+
+    useEffect(() => {
+        getRootUsers()
+    }, [usersList]);
+
+    const getRootUsers = () => {
+        setRootUsers(usersList.filter(user => {
+            return !user.managerId;
+        }))
+    }
+
+    return (
+        <div className="container">
+            <h1>Hierarchy Tree</h1>
+            {rootUsers.map((user) => {
+                return (
+                    <User
+                        user={user}
+                        usersList={usersList}
+                        level={0}
+                    />
+                );
+            })}
+        </div>
+    );
 }
 
 export default App;
