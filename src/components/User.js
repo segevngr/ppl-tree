@@ -5,11 +5,6 @@ const User = ({user, usersList, level}) => {
     const [employees, setEmployees] = useState([]);
     const [photoLoaded, setPhotoLoaded] = React.useState(false);
 
-
-    if(user.id === 2422573780)
-        console.log(photoLoaded);
-
-
     useEffect(() => {
         getEmployees();
     }, [user]);
